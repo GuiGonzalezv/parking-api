@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Get history of reservation by plate Return a array of objects with the history of the license plate on parking lot 1`] = `
+Object {
+  "_id": Any<ObjectId>,
+  "left": Any<Boolean>,
+  "paid": Any<Boolean>,
+  "time": Any<String>,
+}
+`;

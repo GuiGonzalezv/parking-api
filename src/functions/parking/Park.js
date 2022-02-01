@@ -3,15 +3,19 @@ const fnAuxParking = require('./Aux')
 const {BadRequest, InternalServerError} = require("http-errors")
 
 /**
- * The following function receives a object with a plate, validate the plate and return a reservation code
- * @param {Object} plate
+ * The following function receives a plate,
+ * validate if the car is already parked, otherwise,
+ * park the car and returns a reservation code
+ * 
+ * @param {String} plate
  * @returns {Object} 
  */
 
-module.exports = async(req, res) => {
-    const {plate} = req.body
+module.exports = async(plate) => {
     
-    if(!plate) throw new BadRequest("Erro")
+    if(!plate) throw new BadRequest("Plate is required")
+
+    plate = plate.toUpperCase()
 
     if(!fnAuxParking.validatePlate(plate)) throw new BadRequest("Invalid Plate")
 
@@ -23,9 +27,9 @@ module.exports = async(req, res) => {
     }
 
     const response = await new Parking({plate}).save()
-        .catch(error => {throw new InternalServerError(error)})
+        .catch(error => {throw new InternalServerError("Internal server error on parking")})
 
     if(!response) throw new InternalServerError("Internal Server Error")
 
-    return res.status(200).json({reservation: response._id})
+    return {reservation: response._id}
 }

@@ -4,16 +4,17 @@ const {BadRequest, InternalServerError, NotFound} = require("http-errors")
 
 
 /**
- * The following function receives a license plate and returns the history of the car in the parking lot
+ * The following function receives a license plate,
+ * and returns the history of the car in the parking lot
  * @param {String} plate
  * @returns {Array} 
  */
 
-module.exports = async(req, res) => {
-    const {plate} = req.params
-    
+module.exports = async(plate) => {
     if(!plate) throw new BadRequest("Plate is required")
-
+    
+    plate = plate.toUpperCase()
+    
     if(!fnAuxParking.validatePlate(plate)) throw new BadRequest("Invalid Plate")
     
     const response = await Parking.aggregate([{ $match: { plate: plate}}]).project({
@@ -27,7 +28,7 @@ module.exports = async(req, res) => {
                else  : false
             }
        }  
-    }).catch(error => {throw new InternalServerError(error)})
+    }).catch(error => {throw new InternalServerError("Internal server error")})
 
     await response.forEach(async (reservation) => {
         if(!reservation.time) reservation.time = "Car is in the parking lot"
@@ -36,5 +37,5 @@ module.exports = async(req, res) => {
 
     if(!response || !response.length) throw new NotFound("Plate not found in our database")
 
-    return res.status(200).json(response)
+    return response
 }
