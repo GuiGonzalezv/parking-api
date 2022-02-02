@@ -9,8 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/usr/app
-    working_dir: /usr/app
+      - .:/usr/src/app
     environment:
       PORT: 3000
       MONGODB_URI: mongodb://mongo_db:27017
