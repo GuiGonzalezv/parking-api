@@ -20,6 +20,7 @@ describe("Pay a reservation in parking", () => {
         await Parking.deleteMany({plate: "ZZZ-0000"})
         let response = await fnParking.park("ZZZ-0000")
         await fnParking.payment(response.reservation)
+        console.log(response)
         await expect(fnParking.payment(response.reservation)).rejects.toEqual(new BadRequest("Reservation has already been paid"))
     })
 

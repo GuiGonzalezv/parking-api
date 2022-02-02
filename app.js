@@ -1,5 +1,8 @@
 const express = require("express")
 require("express-async-errors")
+require('dotenv').config({
+    path: process.env.NODE_ENV === "test" ? ".env.test" : ".env"
+})
 
 class AppController {
     constructor(){
