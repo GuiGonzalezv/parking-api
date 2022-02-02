@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const {fnParking} = require('../..')
+const {fnParking} = require('../src/functions')
 const {BadRequest, NotFound} = require("http-errors")
-const db = require('../../../Database/connection')
+const db = require('../src/Database/connection')
 
 describe("Get history of reservation by plate", () => {
     it("Returns bad request if doesn't receive a license plate", async () => {

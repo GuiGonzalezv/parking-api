@@ -3,7 +3,7 @@ FROM node:15.0.0
 WORKDIR /usr/app
 
 COPY package*.json ./
-RUN yarn
+RUN yarn install
 
 COPY . .
 

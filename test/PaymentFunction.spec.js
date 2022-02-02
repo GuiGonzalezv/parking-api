@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const {fnParking} = require('../..')
+const {fnParking} = require('../src/functions')
 const {BadRequest, InternalServerError} = require("http-errors")
-const Parking = require('../../../Models/Parking')
+const Parking = require('../src/Models/Parking')
 
 describe("Pay a reservation in parking", () => {
     it("Returns bad request if doesn't receive a reservation code", async () => {
@@ -20,7 +20,6 @@ describe("Pay a reservation in parking", () => {
         await Parking.deleteMany({plate: "ZZZ-0000"})
         let response = await fnParking.park("ZZZ-0000")
         await fnParking.payment(response.reservation)
-        console.log(response)
         await expect(fnParking.payment(response.reservation)).rejects.toEqual(new BadRequest("Reservation has already been paid"))
     })
 

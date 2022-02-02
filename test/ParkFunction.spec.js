@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const {fnParking} = require('../..')
+const {fnParking} = require('../src/functions')
 const {BadRequest} = require("http-errors")
-const Parking = require('../../../Models/Parking')
+const Parking = require('../src/Models/Parking')
 
 describe("Park a car in parking lot", () => {
     it("Returns bad request if doesn't receive a license plate", async () => {
