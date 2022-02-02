@@ -19,7 +19,7 @@ module.exports = async(plate) => {
 
     if(!fnAuxParking.validatePlate(plate)) throw new BadRequest("Invalid Plate")
 
-    const isParked = await fnAuxParking.findByQuery({plate, paid: false, leftAt: {$exists: false}}, "findOne")
+    const isParked = await Parking.findOne({plate, paid: false, left: false, leftAt: {$exists: false}})
         .catch(error => {throw new InternalServerError(error)})
     
     if(isParked) {

@@ -1,9 +1,17 @@
 const mongoose = require('mongoose')
 const {fnParking} = require('../src/functions')
 const {BadRequest, NotFound} = require("http-errors")
-const db = require('../src/Database/connection')
+const Parking = require('../src/Models/Parking')
+
 
 describe("Get history of reservation by plate", () => {
+
+    afterAll(done => {
+        //Remove connection with db
+        mongoose.connection.close()
+        done()
+    })
+    
     it("Returns bad request if doesn't receive a license plate", async () => {
         await expect(fnParking.history()).rejects.toEqual(new BadRequest("Plate is required"))
     })
@@ -18,10 +26,10 @@ describe("Get history of reservation by plate", () => {
 
     it("Return a array of objects with the history of the license plate on parking lot", async() => {
         
-        const response = await fnParking.park("UUU-2222")
+        const response = await fnParking.park("ZZZ-0000")
         await fnParking.payment(response.reservation)
         await fnParking.out(response.reservation)
-        const history = await fnParking.history("UUU-2222")
+        const history = await fnParking.history("ZZZ-0000")
 
         expect(history[0]).toMatchSnapshot({
             _id: expect.any(mongoose.Types.ObjectId),
@@ -29,6 +37,5 @@ describe("Get history of reservation by plate", () => {
             left: expect.any(Boolean),
             time: expect.any(String)
         })
-        db.connection.close()
     })
 })

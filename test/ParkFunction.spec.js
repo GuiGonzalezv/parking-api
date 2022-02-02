@@ -4,6 +4,13 @@ const {BadRequest} = require("http-errors")
 const Parking = require('../src/Models/Parking')
 
 describe("Park a car in parking lot", () => {
+    
+    afterAll(done => {
+        //Remove connection with db
+        mongoose.connection.close()
+        done()
+    })
+    
     it("Returns bad request if doesn't receive a license plate", async () => {
         await expect(fnParking.park()).rejects.toEqual(new BadRequest("Plate is required"))
     })

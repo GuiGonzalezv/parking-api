@@ -4,6 +4,13 @@ const {BadRequest, InternalServerError} = require("http-errors")
 const Parking = require('../src/Models/Parking')
 
 describe("Pay a reservation in parking", () => {
+
+    afterAll(done => {
+        //Remove connection with db
+        mongoose.connection.close()
+        done()
+    })
+
     it("Returns bad request if doesn't receive a reservation code", async () => {
         await expect(fnParking.payment()).rejects.toEqual(new BadRequest("Reservation code is required"))
     })

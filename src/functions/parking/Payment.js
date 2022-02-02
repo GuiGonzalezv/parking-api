@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Parking = require('../../Models/Parking')
-const fnAuxParking = require('./Aux')
 const {BadRequest, InternalServerError} = require("http-errors")
 
 /**
@@ -20,11 +19,11 @@ module.exports = async(id) => {
     if(!reservation) {
         throw new BadRequest("Reservation not found")
     }
-    
+
     if(reservation.paid) {
         throw new BadRequest("Reservation has already been paid")
     }
-    
+
     const response = await Parking.findOneAndUpdate({_id: id}, {paid: true}, {
         returnOriginal: true
     }).catch(error => {throw new InternalServerError("Internal error when paying for parking reservation")})
