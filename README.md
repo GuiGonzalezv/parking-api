@@ -39,96 +39,60 @@ $ yarn test
 ```
 
 
-### Rotas base
-#### Analise
-- (GET) /analysis/  - Retorna todas análises disponiveis no banco
+### Base rotes
+#### History
+- (GET) /parking/:plate  - Return history by plate
 ```
-(JSON RETORNO)
+(JSON RETURN)
 
-[ 
+[
+	{
+		"_id": "61fb3fea0e6356a9ff21f7cf",
+		"paid": true,
+		"left": true,
+		"time": "2 minutes"
+	},
     {
-        "analysisId": 2,
-        "fullName": "Teste23232",
-        "cpf": "000.111.222-00",
-        "analyzedAt": null,
-        "documentos": [
-            {
-                "id": 5,
-                "status": null,
-                "src": "http://..."
-            },
-            {
-                "id": 6,
-                "status": null,
-                "src": "http://..."
-            },
-            {
-                "id": 7,
-                "status": null,
-                "src": "http://..."
-            },
-            {
-                "id": 8,
-                "status": null,
-                "src": "http://..."
-            }
-        ]
-    }
+		"_id": "61f980737986f91f92ca6284",
+		"paid": true,
+		"left": true,
+		"time": "Car is in the parking lot"
+	}
 ]
 ```
 
-- (GET) /analysis/{id} - Retorna uma análise pelo id
+- (POST) /parking - Receives a plate and return a reservation code
 ```
-(JSON RETORNO) 
-
+(JSON INPUT)
 {
-    "analysisId": 1,
-    "fullName": "Teste",
-    "cpf": "000.111.222-00",
-    "analyzedAt": "2021-03-08T04:30:00.136Z",
-    "documentos": [
-        {
-            "id": 1,
-            "status": "error",
-            "src": "http://..."
-        },
-        {
-            "id": 2,
-            "status": "fraud",
-            "src": "http://..."
-        },
-        {
-            "id": 3,
-            "status": "fraud",
-            "src": "http://..."
-        },
-        {
-            "id": 4,
-            "status": "valid",
-            "src": "http://..."
-        }
-    ]
+	"plate": "ZZZ-0000"
 }
 ```
-- (POST) /analysis - Insere uma nova análise (Por não compreender as regras de negócio, fiquei com duvida se a aplicação fazia a busca pelo documento, ou se o mesmo era inserido para ser analisado, então optei por deixar como obrigatório a inserção de ao menos um documento)
 ```
-(JSON ENTRADA)
+(JSON RETURN) 
 
 {
-  "fullName": "Teste23232",
-  "cpf": "000.111.222-00",
-  "documentos": [
-      {
-        "src": "http://..."
-      }
-    ]
+	"reservation": "61fb3fea0e6356a9ff21f7cf"
 }
+```
 
-
-(JSON SAÍDA)
+- (PUT) /parking/:id/pay - Receives a reservation code (id) and make the payment
+```
+(JSON RETURN)
 
 {
-    "analysisId": 2
+	"status": 200,
+	"message": "Successfully paid"
+}
+``` 
+
+- (PUT) /parking/:id/out - Receives a reservation code (id) and remove the car from the parking lot
+```
+(JSON RETURN)
+
+{
+	"status": 200,
+	"message": "Car left the parking lot"
 }
 ``` 
 
