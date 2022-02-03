@@ -6,7 +6,8 @@ module.exports = {
         return regex.test(plate)
     },
     formatedTime( minutes ) {
-        if(!minutes) return "Error calculating time"
+        if(minutes == 0) return "Less than a minute"
+        if(minutes == undefined || minutes == null) return "Error calculating time"
         const days = Math.floor(minutes/24/60)
         const hours = Math.floor(minutes/60%24)
         const min =  Math.floor(minutes%60)

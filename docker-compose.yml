@@ -4,6 +4,7 @@ services:
   parking_api:
     build: .
     command: npm start
+    container_name: parking_api
     depends_on:
       - mongodb
     ports:
