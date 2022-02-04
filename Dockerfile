@@ -2,8 +2,7 @@ FROM node:15.0.0
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY yarn.lock ./
+COPY package*.json ./
 RUN yarn install
 
 COPY . .
