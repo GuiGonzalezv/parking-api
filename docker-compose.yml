@@ -3,7 +3,7 @@ version: '3.9'
 services:
   parking_api:
     build: .
-    command: npm start
+    command: yarn start
     container_name: parking_api
     depends_on:
       - mongodb
