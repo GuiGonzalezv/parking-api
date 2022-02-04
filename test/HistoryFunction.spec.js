@@ -25,7 +25,7 @@ describe("Get history of reservation by plate", () => {
     })
 
     it("Return a array of objects with the history of the license plate on parking lot", async() => {
-        
+        await Parking.deleteMany({plate: "ZZZ-0000"})
         const response = await fnParking.park("ZZZ-0000")
         await fnParking.payment(response.reservation)
         await fnParking.out(response.reservation)
